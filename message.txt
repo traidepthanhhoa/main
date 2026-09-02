@@ -6877,25 +6877,18 @@ spawn(function()
         end
     end
 end)
-local ToggleRandomFruit = Tabs.Fruit:AddToggle("ToggleRandomFruit", {
-    Title = "Random Fruit (Money)",
-    Description = "",
-    Default = false
-})
-ToggleRandomFruit:OnChanged(function(Value)
-    _G.Random_Auto = Value
-end)
-
-spawn(function()
-    while task.wait() do
-        pcall(function()
-            local CommF = game:GetService("ReplicatedStorage").Remotes.CommF_
-            if _G.Random_Auto then
-                CommF:InvokeServer("Cousin", "Buy")
-            end
-        end)
+Tabs.Fruit:AddButton({
+    Title = "Random Fruits",
+    Description = "Get random fruit from Cousin",
+    Callback = function()
+        local args = {
+            "Cousin",
+            "DLCBoxData"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer(unpack(args))
     end
-end)
+})
+
 local ToggleCollectTP = Tabs.Fruit:AddToggle("ToggleCollectTP", {
     Title = "Move To Fruit",
     Description = "",
